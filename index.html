@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>英语史学术研究系统 - 龚凤乾教授设计</title>
-    <link rel="icon" href="data:,">
     <style>
         :root {
             --primary-color: #1a365d;
@@ -13,56 +12,51 @@
             --bg-color: #f1f5f9;
         }
 
-        body { 
-            font-family: 'Times New Roman', serif, "Microsoft YaHei"; 
-            margin: 0; display: flex; height: 100vh; background: var(--bg-color); 
-        }
+        body { font-family: 'Times New Roman', serif, "Microsoft YaHei"; margin: 0; display: flex; height: 100vh; background: var(--bg-color); }
 
         /* 左侧导航栏 - 13个时期 */
         .sidebar {
             width: 280px; background: var(--sidebar-bg); color: white;
             padding: 20px 0; overflow-y: auto; flex-shrink: 0;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
         }
 
-        .sidebar h3 { padding: 0 20px; color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; }
+        .sidebar h3 { padding: 0 20px; color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
 
         .time-link {
             display: block; padding: 12px 20px; color: #cbd5e1; text-decoration: none;
-            transition: all 0.2s; border-left: 4px solid transparent; cursor: pointer;
-            font-size: 0.95rem; line-height: 1.4;
+            border-left: 4px solid transparent; cursor: pointer; transition: 0.2s; font-size: 0.9rem;
         }
 
         .time-link:hover, .time-link.active { background: #334155; color: white; border-left-color: var(--accent-color); }
-        .time-link small { display: block; font-size: 0.75rem; color: #64748b; }
+        .time-link small { display: block; font-size: 0.75rem; color: #64748b; margin-top: 2px; }
 
         /* 主内容区 */
-        .main-content { flex-grow: 1; overflow-y: auto; padding: 40px; display: flex; flex-direction: column; gap: 30px; }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        h1 { margin-top: 0; color: var(--primary-color); border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+        .main-content { flex-grow: 1; overflow-y: auto; padding: 30px 40px; display: flex; flex-direction: column; gap: 20px; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        h1 { margin: 0 0 15px 0; color: var(--primary-color); border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; font-size: 1.6rem; }
+        
         textarea { 
-            width: 100%; height: 120px; padding: 15px; border: 2px solid #e2e8f0; 
-            border-radius: 8px; font-size: 1.1rem; margin: 15px 0; outline: none; box-sizing: border-box;
-            background: #fff;
+            width: 100%; height: 100px; padding: 12px; border: 2px solid #e2e8f0; 
+            border-radius: 8px; font-size: 1rem; margin-bottom: 15px; box-sizing: border-box; outline: none;
         }
 
         .btn-group { display: flex; gap: 10px; }
-        button { padding: 10px 24px; border-radius: 6px; cursor: pointer; font-weight: bold; border: none; transition: 0.3s; }
+        button { padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; border: none; transition: 0.3s; }
         .btn-ask { background: var(--accent-color); color: white; }
-        .btn-read { background: #e2e8f0; color: #1a365d; }
+        .btn-read { background: #f1f5f9; color: var(--primary-color); border: 1px solid #cbd5e1; }
 
         #response-box { 
-            min-height: 150px; padding: 25px; background: #fff; border-radius: 8px;
-            border: 1px solid #e2e8f0; white-space: pre-wrap; line-height: 2; font-size: 1.05rem;
+            min-height: 120px; padding: 20px; background: #fff; border-radius: 8px; 
+            border: 1px solid #e2e8f0; white-space: pre-wrap; line-height: 1.8; font-size: 1.05rem; margin-top: 15px;
         }
 
-        /* 参考文献联动区 */
-        .references { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .ref-item { font-size: 0.9rem; padding: 15px; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; min-height: 100px;}
-        .ref-item strong { color: var(--primary-color); display: block; margin-bottom: 8px; border-bottom: 1px solid #eee; }
-        .ref-item ul { padding-left: 20px; margin: 0; }
-        .ref-item li { margin-bottom: 5px; }
-        .ref-item a { color: var(--accent-color); text-decoration: none; }
+        /* 参考文献与网址动态展示区 */
+        .ref-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
+        .ref-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; min-height: 120px; }
+        .ref-card strong { color: var(--primary-color); display: block; margin-bottom: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 5px; font-size: 0.9rem; }
+        .ref-card ul { padding-left: 18px; margin: 0; color: #475569; font-size: 0.85rem; line-height: 1.6; }
+        .ref-card a { color: var(--accent-color); text-decoration: none; }
+        .ref-card a:hover { text-decoration: underline; }
 
         .typing::after { content: '|'; animation: blink 0.7s infinite; }
         @keyframes blink { 50% { opacity: 0; } }
@@ -72,66 +66,78 @@
 
     <nav class="sidebar">
         <h3>Timeline of English / 英语史时间轴</h3>
-        <div onclick="updateContext(this, 'Pre-Roman & Celtic', 'Discuss Pre-Roman/Celtic features.', ['Russell: The Celtic Languages', 'Jackson: Language and History'], ['Celtic Digital Initiative'])" class="time-link">Pre-Roman & Celtic<small>史前与凯尔特</small></div>
-        <div onclick="updateContext(this, 'Roman Britain', 'Explain Latin impact on Old English.', ['Adams: Regional Latin Diversification', 'Rivet: Roman Britain Place-Names'], ['Roman Britain Online'])" class="time-link">Roman Britain<small>罗马统治时期</small></div>
-        <div onclick="updateContext(this, 'Anglo-Saxon Era', 'What are characteristics of Old English?', ['Baugh & Cable: Ch. 3', 'Mitchell: Invitation to Old English'], ['Electronic Beowulf'])" class="time-link">Anglo-Saxon Era<small>盎格鲁-撒克逊</small></div>
-        <div onclick="updateContext(this, 'The Middle Ages', 'Discuss Middle English development.', ['Chaucer: The Canterbury Tales', 'Burrow: Medieval Literature'], ['British Library: Medieval MSS'])" class="time-link">The Middle Ages<small>中世纪盛期</small></div>
-        <div onclick="updateContext(this, 'The Tudors', 'Tudor English standardization.', ['Jones: Language of the Tudors', 'Görlach: Early Modern English'], ['Early English Books Online'])" class="time-link">The Tudors<small>都铎王朝</small></div>
-        <div onclick="updateContext(this, 'Stuart Period', 'Analyze Early Modern English.', ['Wright: Standard English', 'Blake: Shakespeare Grammar'], ['King James Bible Archive'])" class="time-link">Stuart Period<small>斯图亚特王朝</small></div>
-        <div onclick="updateContext(this, 'Georgian Era', 'Georgian era linguistic shifts.', ['S. Fitzgerald: Georgian Language'], ['Burney Collection'])" class="time-link">Georgian Era<small>乔治时代</small></div>
-        <div onclick="updateContext(this, 'Victorian Era', 'Victorian vocabulary expansion.', ['Mugglestone: Oxford History of English'], ['Victorian Web'])" class="time-link">Victorian Era<small>维多利亚时代</small></div>
-        <div onclick="updateContext(this, 'Edwardian Era', 'Edwardian linguistic features.', ['D. Crystal: Stories of English'], ['Edwardian Culture Network'])" class="time-link">Edwardian Era<small>爱德华时代</small></div>
-        <div onclick="updateContext(this, 'World Wars Era', 'War impact on language.', ['D. Crystal: Language and the Wars'], ['IWM Archive'])" class="time-link">World Wars Era<small>世界大战时期</small></div>
-        <div onclick="updateContext(this, 'Post-War Period', 'Rise of Global English.', ['D. Crystal: English as Global Language'], ['OED World Englishes'])" class="time-link">Post-War Period<small>战后重建</small></div>
-        <div onclick="updateContext(this, 'Thatcher Era', 'Social dialects in Thatcher era.', ['Fairclough: Critical Discourse Analysis'], ['Thatcher Foundation'])" class="time-link">Thatcher Era<small>撒切尔时代</small></div>
-        <div onclick="updateContext(this, 'Modern Britain', 'Trends in Modern British English.', ['D. Crystal: Making a Point'], ['BNC Corpus'])" class="time-link">Modern Britain<small>现代英国</small></div>
+        <div onclick="updateContext(this, 'Pre-Roman & Celtic', 'Discuss Pre-Roman and Celtic linguistic features.', ['P. Russell: The Celtic Languages', 'K. Jackson: Language and History'], ['Celtic Digital Initiative', 'University of Wales Archive'])" class="time-link">Pre-Roman & Celtic<small>史前与凯尔特</small></div>
+        <div onclick="updateContext(this, 'Roman Britain', 'Explain the impact of Latin during Roman occupation.', ['J. Adams: Regional Latin Diversification', 'A. Rivet: Place-Names of Roman Britain'], ['Roman Britain Online', 'Vindolanda Tablets'])" class="time-link">Roman Britain<small>罗马统治时期</small></div>
+        <div onclick="updateContext(this, 'Anglo-Saxon Era', 'What are characteristics of Old English?', ['Baugh & Cable: History of English (Ch. 3)', 'B. Mitchell: Invitation to Old English'], ['Electronic Beowulf', 'Old English Newsletter'])" class="time-link">Anglo-Saxon Era<small>盎格鲁-撒克逊</small></div>
+        <div onclick="updateContext(this, 'The Middle Ages', 'Discuss Middle English development.', ['Burrow: Medieval English Literature', 'D. Burnley: History of English'], ['Middle English Compendium', 'TEAMS Texts'])" class="time-link">The Middle Ages<small>中世纪盛期</small></div>
+        <div onclick="updateContext(this, 'The Tudors', 'Tudor English and standardization.', ['E. Jones: Language of the Tudors', 'M. Görlach: Early Modern English'], ['Early English Books Online', 'Shakespeare’s Words'])" class="time-link">The Tudors<small>都铎王朝</small></div>
+        <div onclick="updateContext(this, 'Stuart Period', 'Analyze Early Modern English during Stuart reign.', ['L. Wright: Standard English', 'N. Blake: Shakespearean Grammar'], ['King James Bible Archive', 'Newton Project'])" class="time-link">Stuart Period<small>斯图亚特王朝</small></div>
+        <div onclick="updateContext(this, 'Georgian Era', 'Linguistic shifts in the Georgian era.', ['S. Fitzgerald: Georgian Language', 'C. Percy: Oxford History'], ['Burney Collection', 'English Short Title Catalogue'])" class="time-link">Georgian Era<small>乔治时代</small></div>
+        <div onclick="updateContext(this, 'Victorian Era', 'Victorian vocabulary expansion.', ['L. Mugglestone: Oxford History of English'], ['Victorian Web', 'OED History Hub'])" class="time-link">Victorian Era<small>维多利亚时代</small></div>
+        <div onclick="updateContext(this, 'Edwardian Era', 'Edwardian linguistic features.', ['D. Crystal: Stories of English'], ['Edwardian Culture Network', 'BBC Edwardian Farm'])" class="time-link">Edwardian Era<small>爱德华时代</small></div>
+        <div onclick="updateContext(this, 'World Wars Era', 'Impact of World Wars on English.', ['D. Crystal: Language and the Wars'], ['IWM Language Records', 'Wartime Slang'])" class="time-link">World Wars Era<small>世界大战时期</small></div>
+        <div onclick="updateContext(this, 'Post-War Period', 'Rise of Global English post-1945.', ['D. Crystal: English as Global Language'], ['British Council: English Effect', 'OED World Englishes'])" class="time-link">Post-War Period<small>战后重建</small></div>
+        <div onclick="updateContext(this, 'Thatcher Era', 'Social dialects in the Thatcher era.', ['Fairclough: Critical Discourse Analysis'], ['Thatcher Foundation', 'Sociolinguistics Lab'])" class="time-link">Thatcher Era<small>撒切尔时代</small></div>
+        <div onclick="updateContext(this, 'Modern Britain', 'Current trends in Modern British English.', ['D. Crystal: Making a Point', 'S. Thorne: Advanced English'], ['BBC Voices', 'British National Corpus'])" class="time-link">Modern Britain<small>现代英国</small></div>
     </nav>
 
     <main class="main-content">
         <div class="card">
             <h1>Interactive Learning Zone / 互动学习区</h1>
-            <p style="color:#64748b; margin-bottom: 5px;">由龚凤乾教授精心设计，提供纯净语音支持的英语史学术咨询系统。</p>
-            <textarea id="user-input" placeholder="请选择左侧时期或在此输入您的学术问题..."></textarea>
+            <p style="color:#64748b; font-size: 0.85rem;">由龚凤乾教授精心设计。点击左侧分期，下方将自动加载权威学术资源。</p>
+            
+            <textarea id="user-input" placeholder="请从左侧选择一个历史分期开始研究..."></textarea>
+
             <div class="btn-group">
                 <button class="btn-ask" onclick="askAI()">🚀 Ask DeepSeek</button>
-                <button class="btn-read" onclick="readText()">🔊 Read Pure Text (优化朗读)</button>
+                <button class="btn-read" onclick="readPureText()">🔊 Read Content (语音净化)</button>
             </div>
-            <h3 style="margin-top:25px; color: var(--primary-color);">Response / 智能解析：</h3>
-            <div id="response-box">等待输入学术指令...</div>
+
+            <h3 style="margin-top:20px; color: var(--primary-color);">Response / 智能解析：</h3>
+            <div id="response-box">等待指令输入...</div>
         </div>
 
-        <div class="references">
-            <div class="ref-item">
+        <div class="ref-section">
+            <div class="ref-card">
                 <strong>📚 Academic References:</strong>
-                <ul id="ref-books"><li>(请点击左侧时期加载文献)</li></ul>
+                <ul id="ref-books"><li>(请点击左侧时期)</li></ul>
             </div>
-            <div class="ref-item">
+            <div class="ref-card">
                 <strong>🌐 Online Resources:</strong>
-                <ul id="ref-web"><li>(请点击左侧时期加载网址)</li></ul>
+                <ul id="ref-web"><li>(请点击左侧时期)</li></ul>
             </div>
         </div>
     </main>
 
     <script>
-        // 1. 核心联动功能：点击时期自动更新输入框和下方参考文献
+        // 核心联动功能：点击时期，即时刷新界面上的所有相关资料
         function updateContext(element, period, prompt, books, links) {
+            // 1. 高亮切换
             document.querySelectorAll('.time-link').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
+
+            // 2. 更新输入框 Prompt
             document.getElementById('user-input').value = prompt;
 
-            // 更新文献列表
-            document.getElementById('ref-books').innerHTML = books.map(b => `<li>${b}</li>`).join('');
-            document.getElementById('ref-web').innerHTML = links.map(l => `<li><a href="#" target="_blank">${l}</a></li>`).join('');
+            // 3. 【改进关键】实时注入参考文献列表
+            const bookContainer = document.getElementById('ref-books');
+            bookContainer.innerHTML = books.map(book => `<li>${book}</li>`).join('');
+
+            // 4. 【改进关键】实时注入网址链接列表
+            const webContainer = document.getElementById('ref-web');
+            webContainer.innerHTML = links.map(link => `<li><a href="https://www.google.com/search?q=${encodeURIComponent(link)}" target="_blank">${link}</a></li>`).join('');
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 2. 这里的后端调用路径必须与 netlify.toml 中的配置一致
         async function askAI() {
             const input = document.getElementById('user-input').value;
             const box = document.getElementById('response-box');
-            if(!input.trim()) return alert("请输入学术问题。");
+            if(!input.trim()) return alert("请输入问题。");
+
             box.innerText = "Consulting academic archives...";
             box.classList.add('typing');
+
             try {
                 const res = await fetch("/.netlify/functions/chat", {
                     method: "POST",
@@ -139,6 +145,7 @@
                     body: JSON.stringify({ question: input })
                 });
                 const data = await res.json();
+                
                 let i = 0; box.innerText = "";
                 function type() {
                     if(i < data.answer.length) {
@@ -147,19 +154,24 @@
                     } else { box.classList.remove('typing'); }
                 }
                 type();
-            } catch (e) { box.innerText = "Error: 无法连接AI。请检查 Netlify Functions 部署。"; box.classList.remove('typing'); }
+            } catch (e) { 
+                box.innerText = "Error: AI响应失败。"; 
+                box.classList.remove('typing');
+            }
         }
 
-        // 3. 语音净化：剔除星号等符号，确保朗读顺畅
-        function readText() {
-            let text = window.getSelection().toString() || document.getElementById('response-box').innerText;
+        function readPureText() {
+            let text = document.getElementById('response-box').innerText;
             if(!text || text.includes("Consulting")) return;
-            // 净化逻辑：剔除 Markdown 星号和非必要符号
-            text = text.replace(/[^\w\s\u4e00-\u9fa5，。？！；：“”（）(),.?!;:'"]/g, '').replace(/\s+/g, ' ');
+
+            // 语音净化：剔除星号、Markdown标记
+            text = text.replace(/[^\w\s\u4e00-\u9fa5，。？！；：“”（）(),.?!;:'"]/g, '');
+
             const utter = new SpeechSynthesisUtterance(text);
             const isChinese = /[\u4e00-\u9fa5]/.test(text);
             utter.lang = isChinese ? 'zh-CN' : 'en-GB';
-            utter.rate = 0.85;
+            utter.rate = 0.9;
+            
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utter);
         }
