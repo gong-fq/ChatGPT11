@@ -14,49 +14,34 @@
 
         body { font-family: 'Times New Roman', serif, "Microsoft YaHei"; margin: 0; display: flex; height: 100vh; background: var(--bg-color); }
 
-        /* 侧边栏 */
-        .sidebar {
-            width: 280px; background: var(--sidebar-bg); color: white;
-            padding: 20px 0; overflow-y: auto; flex-shrink: 0;
-        }
-
+        /* 侧边栏样式 */
+        .sidebar { width: 280px; background: var(--sidebar-bg); color: white; padding: 20px 0; overflow-y: auto; flex-shrink: 0; }
         .sidebar h3 { padding: 0 20px; color: #94a3b8; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
-
-        .time-link {
-            display: block; padding: 12px 20px; color: #cbd5e1; text-decoration: none;
-            border-left: 4px solid transparent; cursor: pointer; transition: 0.2s; font-size: 0.9rem;
-        }
-
+        .time-link { display: block; padding: 12px 20px; color: #cbd5e1; text-decoration: none; border-left: 4px solid transparent; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
         .time-link:hover, .time-link.active { background: #334155; color: white; border-left-color: var(--accent-color); }
         .time-link small { display: block; font-size: 0.75rem; color: #64748b; margin-top: 2px; }
 
-        /* 主内容 */
+        /* 主内容区 */
         .main-content { flex-grow: 1; overflow-y: auto; padding: 30px 40px; display: flex; flex-direction: column; gap: 20px; }
         .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         h1 { margin: 0; color: var(--primary-color); border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; font-size: 1.6rem; }
+        textarea { width: 100%; height: 100px; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; margin: 15px 0; box-sizing: border-box; outline: none; }
         
-        textarea { 
-            width: 100%; height: 100px; padding: 12px; border: 2px solid #e2e8f0; 
-            border-radius: 8px; font-size: 1rem; margin: 15px 0; box-sizing: border-box; outline: none;
-        }
-
         .btn-group { display: flex; gap: 10px; }
         button { padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; border: none; transition: 0.3s; }
         .btn-ask { background: var(--accent-color); color: white; }
         .btn-read { background: #f1f5f9; color: var(--primary-color); border: 1px solid #cbd5e1; }
 
-        #response-box { 
-            min-height: 120px; padding: 20px; background: #fff; border-radius: 8px; 
-            border: 1px solid #e2e8f0; white-space: pre-wrap; line-height: 1.8; font-size: 1.05rem;
-        }
+        #response-box { min-height: 120px; padding: 20px; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; white-space: pre-wrap; line-height: 1.8; font-size: 1.05rem; }
 
-        /* 动态联动区 */
+        /* 联动展示区样式 */
         .ref-section { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
         .ref-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; min-height: 120px; }
         .ref-card strong { color: var(--primary-color); display: block; margin-bottom: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 5px; font-size: 0.9rem; }
-        .ref-card ul { padding-left: 18px; margin: 0; color: #475569; font-size: 0.85rem; line-height: 1.8; }
-        .ref-card a { color: var(--accent-color); text-decoration: none; font-weight: 500; }
-        .ref-card a:hover { text-decoration: underline; color: #1a365d; }
+        .ref-card ul { padding-left: 18px; margin: 0; color: #475569; font-size: 0.85rem; line-height: 1.8; list-style: none; }
+        .ref-card li { margin-bottom: 8px; }
+        .ref-card a { color: var(--accent-color); text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 5px; }
+        .ref-card a:hover { text-decoration: underline; color: var(--primary-color); }
 
         .typing::after { content: '|'; animation: blink 0.7s infinite; }
         @keyframes blink { 50% { opacity: 0; } }
@@ -84,7 +69,7 @@
     <main class="main-content">
         <div class="card">
             <h1>Interactive Learning Zone / 互动学习区</h1>
-            <p style="color:#64748b; font-size: 0.85rem;">由龚凤乾教授精心设计。点击左侧分期，下方文献与网址将自动同步链接。</p>
+            <p style="color:#64748b; font-size: 0.85rem;">由龚凤乾教授精心设计。点击左侧分期，文献链接会自动更新。</p>
             
             <textarea id="user-input" placeholder="请从左侧选择一个历史分期开始研究..."></textarea>
 
@@ -99,7 +84,7 @@
 
         <div class="ref-section">
             <div class="ref-card">
-                <strong>📚 Academic References (点击直达搜索):</strong>
+                <strong>📚 Academic References (点击搜索专著):</strong>
                 <ul id="ref-books"><li>(请点击左侧时期加载)</li></ul>
             </div>
             <div class="ref-card">
@@ -110,19 +95,18 @@
     </main>
 
     <script>
-        // 核心联动功能：为文献和网址同时生成点击链接
         function updateContext(element, period, prompt, books, links) {
             document.querySelectorAll('.time-link').forEach(el => el.classList.remove('active'));
             element.classList.add('active');
             document.getElementById('user-input').value = prompt;
 
-            // 1. 【核心改进】为参考文献生成学术搜索链接 (Google Scholar)
+            // 更新参考文献链接（指向学术搜索）
             const bookContainer = document.getElementById('ref-books');
             bookContainer.innerHTML = books.map(book => 
                 `<li><a href="https://scholar.google.com/scholar?q=${encodeURIComponent(book)}" target="_blank">📖 ${book}</a></li>`
             ).join('');
 
-            // 2. 为网址生成搜索或直达链接
+            // 更新在线资源链接（指向相关学术站点）
             const webContainer = document.getElementById('ref-web');
             webContainer.innerHTML = links.map(link => 
                 `<li><a href="https://www.google.com/search?q=${encodeURIComponent(link)}" target="_blank">🔗 ${link}</a></li>`
@@ -146,14 +130,11 @@
                 const data = await res.json();
                 let i = 0; box.innerText = "";
                 function type() {
-                    if(i < data.answer.length) { box.innerText += data.answer.charAt(i++); setTimeout(type, 15); } 
-                    else { box.classList.remove('typing'); }
+                    if(i < data.answer.length) { 
+                        box.innerText += data.answer.charAt(i++); 
+                        setTimeout(type, 15); 
+                    } else { box.classList.remove('typing'); }
                 }
                 type();
-            } catch (e) { box.innerText = "Error: AI响应失败。"; box.classList.remove('typing'); }
-        }
-
-        function readPureText() {
-            let text = document.getElementById('response-box').innerText;
-            if(!text || text.includes("Consulting")) return;
-            text = text.replace(/[^\w\s\u4e00
+            } catch (e) { 
+                box.innerText = "Error: AI 响应失败。
